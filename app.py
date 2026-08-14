@@ -2,11 +2,13 @@ import streamlit as st
 import pickle
 import requests
 from sklearn.metrics.pairwise import cosine_similarity
+from pathlib import Path 
 
 st.set_page_config(layout="wide")
 
-data_model=pickle.load(open(r"D:\ali\SIC\Project\Recoomend System\movies_metadata.csv\data_model.pkl",'rb'))
-vector=pickle.load(open(r"D:\ali\SIC\Project\Recoomend System\movies_metadata.csv\vector.pkl","rb"))
+BASE_DIR = Path(__file__).parent
+data_model = pickle.load(open(BASE_DIR / "data_model.pkl", "rb"))
+vector = pickle.load(open(BASE_DIR / "vector.pkl", "rb"))
 
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=c7ec19ffdd3279641fb606d19ceb9bb1&language=en-US"
