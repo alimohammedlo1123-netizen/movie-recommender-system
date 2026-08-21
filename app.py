@@ -5,8 +5,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from pathlib import Path 
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
 import ast
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
