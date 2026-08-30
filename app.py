@@ -13,7 +13,10 @@ st.set_page_config(layout="wide")
 
 BASE_DIR = Path(__file__).parent
 data_model = pickle.load(open(BASE_DIR / "data_model.pkl", "rb"))
-vector = pickle.load(open(BASE_DIR / "vector.pkl", "rb"))
+vec_title = pickle.load(open(BASE_DIR / "vec_title.pkl", "rb"))
+vec_text = pickle.load(open(BASE_DIR / "vec_text.pkl", "rb"))
+vec_genre = pickle.load(open(BASE_DIR / "vec_genre.pkl", "rb"))
+
 
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=c7ec19ffdd3279641fb606d19ceb9bb1&language=en-US"
@@ -25,8 +28,12 @@ def fetch_poster(movie_id):
     return None
 def recommend(movie,k):
     index=data_model[data_model['title']==movie].index[0]
-    similarity=cosine_similarity(vector[index],vector).flatten()
-    distance=sorted(list(enumerate(similarity)),reverse=True,key=lambda x:x[1])
+    sim_title=cosine_similarity(vec_title[index],vec_title).flatten()
+    sim_text=cosine_similarity(vec_text[index],vec_text).flatten()
+    sim_gerne=cosine_similarity(vec_genre[index],vec_genre).flatten()
+    sim=sim_title*.15+sim_text*.55+sim_gerne*.3
+
+    distance=sorted(list(enumerate(sim)),reverse=True,key=lambda x:x[1])
     recommend_movies=[]
     recommend_posters=[]
     for i in distance[0:k]:
